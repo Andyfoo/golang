@@ -127,6 +127,7 @@ func TestDecodeInvalidDataType(t *testing.T) {
 }
 
 func compare(t *testing.T, img0, img1 image.Image) {
+	t.Helper()
 	b0 := img0.Bounds()
 	b1 := img1.Bounds()
 	if b0.Dx() != b1.Dx() || b0.Dy() != b1.Dy() {
@@ -190,6 +191,32 @@ func TestDecodeLZW(t *testing.T) {
 	}
 
 	compare(t, img0, img1)
+}
+
+// TestDecodeCCITT tests that decoding a PNG image and a CCITT compressed TIFF
+// image result in the same pixel data.
+func TestDecodeCCITT(t *testing.T) {
+	// TODO Add more tests.
+	for _, fn := range []string{
+		"bw-gopher",
+	} {
+		img0, err := load(fn + ".png")
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		img1, err := load(fn + "_ccittGroup3.tiff")
+		if err != nil {
+			t.Fatal(err)
+		}
+		compare(t, img0, img1)
+
+		img2, err := load(fn + "_ccittGroup4.tiff")
+		if err != nil {
+			t.Fatal(err)
+		}
+		compare(t, img0, img2)
+	}
 }
 
 // TestDecodeTagOrder tests that a malformed image with unsorted IFD entries is
@@ -376,6 +403,7 @@ func TestLargeIFDEntry(t *testing.T) {
 
 // benchmarkDecode benchmarks the decoding of an image.
 func benchmarkDecode(b *testing.B, filename string) {
+	b.Helper()
 	b.StopTimer()
 	contents, err := ioutil.ReadFile(testdataDir + filename)
 	if err != nil {

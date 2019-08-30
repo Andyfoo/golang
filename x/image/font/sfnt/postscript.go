@@ -985,7 +985,7 @@ const escapeByte = 12
 //
 // 5177.Type2.pdf page 16 Note 4 says: "The first stack-clearing operator,
 // which must be one of hstem, hstemhm, vstem, vstemhm, cntrmask, hintmask,
-// hmoveto, vmoveto, rmoveto, or endchar, takes an additional argument â€?the
+// hmoveto, vmoveto, rmoveto, or endchar, takes an additional argument â€” the
 // width... which may be expressed as zero or one numeric argument."
 func t2CReadWidth(p *psInterpreter, nArgs int32) {
 	if p.type2Charstrings.seenWidth {

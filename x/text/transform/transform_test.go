@@ -1056,8 +1056,8 @@ func TestRemoveFunc(t *testing.T) {
 		},
 
 		{
-			src:     "a\xbd\xb2=\xbc ‚å?,
-			wantStr: "\uFFFD\uFFFD=\uFFFD ‚å?,
+			src:     "a\xbd\xb2=\xbc ‚åò",
+			wantStr: "\uFFFD\uFFFD=\uFFFD ‚åò",
 		},
 
 		{

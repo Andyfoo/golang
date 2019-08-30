@@ -1117,8 +1117,8 @@ var widthIndex = [1408]uint8{
 // The last byte of the UTF-8-encoded rune is xor-ed with the last byte of the
 // UTF-8 encoding of the original rune. Mappings often have the following
 // pattern:
-//   ï¼?-> A  (U+FF21 -> U+0041)
-//   ï¼?-> B  (U+FF22 -> U+0042)
+//   ï¼¡ -> A  (U+FF21 -> U+0041)
+//   ï¼¢ -> B  (U+FF22 -> U+0042)
 //   ...
 // By xor-ing the last byte the same entry can be shared by many mappings. This
 // reduces the total number of distinct entries by about two thirds.

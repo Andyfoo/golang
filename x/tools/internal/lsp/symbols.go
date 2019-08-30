@@ -5,9 +5,33 @@
 package lsp
 
 import (
+	"context"
+
 	"github.com/Andyfoo/golang/x/tools/internal/lsp/protocol"
 	"github.com/Andyfoo/golang/x/tools/internal/lsp/source"
+	"github.com/Andyfoo/golang/x/tools/internal/span"
+	"github.com/Andyfoo/golang/x/tools/internal/telemetry/trace"
 )
+
+func (s *Server) documentSymbol(ctx context.Context, params *protocol.DocumentSymbolParams) ([]protocol.DocumentSymbol, error) {
+	ctx, done := trace.StartSpan(ctx, "lsp.Server.documentSymbol")
+	defer done()
+	uri := span.NewURI(params.TextDocument.URI)
+	view := s.session.ViewOf(uri)
+	f, err := getGoFile(ctx, view, uri)
+	if err != nil {
+		return nil, err
+	}
+	m, err := getMapper(ctx, f)
+	if err != nil {
+		return nil, err
+	}
+	symbols, err := source.DocumentSymbols(ctx, f)
+	if err != nil {
+		return nil, err
+	}
+	return toProtocolDocumentSymbols(m, symbols), nil
+}
 
 func toProtocolDocumentSymbols(m *protocol.ColumnMapper, symbols []source.Symbol) []protocol.DocumentSymbol {
 	result := make([]protocol.DocumentSymbol, 0, len(symbols))

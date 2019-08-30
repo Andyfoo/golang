@@ -13,9 +13,11 @@ import (
 	"os"
 
 	"github.com/Andyfoo/golang/x/tools/internal/lsp/cmd"
+	"github.com/Andyfoo/golang/x/tools/internal/lsp/debug"
 	"github.com/Andyfoo/golang/x/tools/internal/tool"
 )
 
 func main() {
-	tool.Main(context.Background(), &cmd.Application{}, os.Args[1:])
+	debug.Version += "-cmd.gopls"
+	tool.Main(context.Background(), cmd.New("gopls-legacy", "", nil), os.Args[1:])
 }

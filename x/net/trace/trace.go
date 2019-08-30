@@ -661,7 +661,7 @@ type cond interface {
 type minCond time.Duration
 
 func (m minCond) match(t *trace) bool { return t.Elapsed >= time.Duration(m) }
-func (m minCond) String() string      { return fmt.Sprintf("â‰?gs", time.Duration(m).Seconds()) }
+func (m minCond) String() string      { return fmt.Sprintf("â‰¥%gs", time.Duration(m).Seconds()) }
 
 type errorCond struct{}
 
